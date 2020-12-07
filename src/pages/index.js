@@ -10,7 +10,6 @@ export default function Forme() {
   const [total] = React.useState('');
   const [products, setProducts] = React.useState([]);
 
-  // Salvando no LocalStorage
   React.useEffect(() => {
     const json = localStorage.getItem('products');
     const loadProducts = JSON.parse(json);
@@ -24,11 +23,10 @@ export default function Forme() {
     localStorage.setItem('products', json);
   }, [products]);
 
-  // Enviando o form
   function handleSubmit(event) {
     event.preventDefault();
 
-    let formErrors = false; // Para mesmo que no erro de quantidade, não deixar enviar
+    let formErrors = false;
     if (quantidade <= 0) {
       formErrors = true;
       alert('Quantidade deve ser maior que 0');
@@ -40,17 +38,14 @@ export default function Forme() {
     ]);
   }
 
-  // Deletando item
   const handleDelete = async (e, id) => {
     e.persist();
 
     setProducts([...products.filter((product) => product.id !== id)]);
   };
 
-  // const handleEdit = (e, index) => {};
-
   return (
-    <Form onSubmit={(event) => handleSubmit(event)} key="form">
+    <Form onSubmit={(event) => handleSubmit(event)}>
       <label htmlFor="nome">
         Nome do Produto:
         <input
@@ -111,11 +106,13 @@ export default function Forme() {
                 <td>
                   <strong>{product.quantidade * product.preco}</strong>
                 </td>
-                <FaWindowClose
-                  size={16}
-                  cursor="pointer"
-                  onClick={(e) => handleDelete(e, product.id)}
-                />
+                <td>
+                  <FaWindowClose
+                    size={16}
+                    cursor="pointer"
+                    onClick={(e) => handleDelete(e, product.id)}
+                  />
+                </td>
               </tr>
             </tbody>
           </ProductTable>
